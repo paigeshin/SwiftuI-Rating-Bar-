@@ -1,34 +1,49 @@
+```swift 
 //
-//  ContentView.swift
-//  RatingBar
+//  RatingsView.swift
+//  SleepWave
 //
 //  Created by paige on 2022/02/03.
 //
-
 import SwiftUI
 
-struct ContentView: View {
+struct RatingsView: View {
     
-    @State var selected: Int = -1
+    @Binding var selected: Int
     
     var body: some View {
-        VStack {
-            
-            if self.selected != -1 {
-                Text("Ratings = \(selected + 1)")
-                    .foregroundColor(.white)
-                    .padding(.bottom, 10)
-            }
-            
-            RatingsView(selected: $selected)
-            
-        }
+        HStack(spacing: 10) {
+            ForEach(0..<5) { i in
+                Image(systemName: "star.fill")
+                    .resizable()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(self.selected >= i ? RatingColor : InactiveRatingColor)
+                    .onTapGesture {
+                        self.selected = i
+                    }
+            } //: FOREACH
+        } //: HSTACK
     }
+    
 }
 
-struct ContentView_Previews: PreviewProvider {
+#if DEBUG
+struct RatingsView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        RatingsView(selected: .constant(3))
     }
 }
+#endif 
 
+extension RatingsView {
+    
+    var RatingColor: Color {
+        Color(red: 87/255, green: 81/255, blue: 255/255)
+    }
+    
+    var InactiveRatingColor: Color {
+        Color(red: 77/255, green: 77/255, blue: 77/255)
+    }
+    
+}
+```swift 
